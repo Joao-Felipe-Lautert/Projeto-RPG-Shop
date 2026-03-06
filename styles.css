@@ -88,9 +88,26 @@ header {
   font-size: 10px;
 }
 
-button {
+#proximo-cliente {
   color: #ffd700;
   background-color: #21216a;
   border: none;
   font-weight: bold;
+  cursor: pointer;
+}
+
+#relatorio {
+  color: #ffd700;
+  background-color: #0d0d30;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#fechar-caixa {
+  color: #ffd700;
+  background-color: #0d0d30;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
 }

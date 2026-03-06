@@ -16,7 +16,13 @@
         <h1>MERCADOR DA MONTANHA</h1>
         <div class="stats">
           <span>Vendas: <span id="total-vendas">0</span></span>
-          <span>Caixa: 💰 <span id="caixa-loja">0</span></span>
+          <span>Caixa:💰 <span id="caixa-loja">0</span></span>
+          <button id="relatorio" onclick="gerarRelatorio()">
+            Gerar Relatório
+          </button>
+          <button id="fechar-caixa" onclick="fecharCaixa()">
+            Fechar Caixa
+          </button>
         </div>
       </header>
 
@@ -26,7 +32,9 @@
           <h2 id="hero-name">Aguardando cliente...</h2>
           <p>Ouro: 💰 <span id="hero-gold">0</span></p>
           <div class="bubble" id="hero-msg">...</div>
-          <button onclick="proximoCliente()">Próximo Cliente</button>
+          <button id="proximo-cliente" onclick="proximoCliente()">
+            Próximo Cliente
+          </button>
         </div>
       </div>
 

@@ -5,13 +5,13 @@ alasql(
 alasql(
   "CREATE TABLE herois (id INT, nome STRING, ouro INT, avatar STRING, fala STRING)"
 );
+alasql("CREATE TABLE vendas (id_heroi INT, id_item INT, valor INT)");
 
 // 2. INSERÇÃO DE DADOS (POPULANDO O BANCO)
 alasql("INSERT INTO itens VALUES (1, 'Poção de Vida', 25, '🧪', 15)");
 alasql("INSERT INTO itens VALUES (2, 'Espada Longa', 100, '⚔️', 5)");
 alasql("INSERT INTO itens VALUES (3, 'Anél Mágico', 250, '💍', 1)");
 alasql("INSERT INTO itens VALUES (4, 'Arco Flamejante', 150, '🏹', 3)");
-// ... Adicione mais itens aqui depois ...
 
 alasql(
   "INSERT INTO herois VALUES (1, 'Aragorn', 200, '🧝‍♂️', 'Preciso de equipamentos.')"
@@ -40,16 +40,11 @@ function atualizarInterface() {
   itens.forEach((item) => {
     let div = document.createElement("div");
     div.className = "item-card";
-
-    // ADICIONE ESTA LINHA ABAIXO:
-    // Quando clicar, chama a função comprarItem enviando o ID deste produto
     div.onclick = () => comprarItem(item.id);
 
-    div.className = "item-card";
-
     if (item.estoque === 0) {
-      div.style.opacity = "0.3"; // Deixa transparente
-      div.style.cursor = "not-allowed"; // Mouse com sinal de proibido
+      div.style.opacity = "0.3";
+      div.style.cursor = "not-allowed";
     }
     div.innerHTML = `
             <span class="item-icon">${item.icone}</span>
@@ -66,6 +61,15 @@ function atualizarInterface() {
   document.getElementById("hero-gold").innerText = heroi.ouro;
   document.querySelector(".hero-avatar").innerText = heroi.avatar;
   document.getElementById("hero-msg").innerText = heroi.fala;
+
+  let totalVendas = alasql("SELECT COUNT(*) AS qtd FROM vendas")[0].qtd;
+  document.getElementById("total-vendas").innerText = totalVendas;
+
+  let caixaTotal = alasql("SELECT SUM(valor) AS total FROM vendas")[0].total;
+  if (!caixaTotal) {
+    caixaTotal = 0;
+  }
+  document.getElementById("caixa-loja").innerText = caixaTotal;
 }
 
 // FUNÇÃO: Troca de Cliente (Lógica de Fila)
@@ -79,42 +83,40 @@ function proximoCliente() {
 // Inicializa o jogo ao carregar a página
 window.onload = atualizarInterface;
 
-let div = document.createElement("div");
-div.className = "item-card";
-
-// ADICIONE ESTA LINHA ABAIXO:
-// Quando clicar, chama a função comprarItem enviando o ID deste produto
-div.onclick = () => comprarItem(item.id);
-
 // =========================================
 // LÓGICA DE VENDAS
 // =========================================
 
 function comprarItem(idItem) {
   // 1. BUSCAR DADOS (SELECT)
-  // Descobre qual item foi clicado e quem é o herói atual
   let item = alasql(`SELECT * FROM itens WHERE id = ${idItem}`)[0];
   let heroi = alasql(`SELECT * FROM herois WHERE id = ${heroiAtualId}`)[0];
 
   if (heroi.ouro < item.preco) {
     alert("Você não tem dinheiro!");
-    return; // O 'return' para a função aqui e impede a compra
+    return;
   }
   if (item.estoque <= 0) {
     alert("O estoque acabou, volte mais tarde");
     return;
   }
   // 2. EXECUTAR A COMPRA (UPDATE)
-  // Diminui 1 do estoque
   alasql(`UPDATE itens SET estoque = estoque - 1 WHERE id = ${idItem}`);
-
-  // Tira o dinheiro do herói
   alasql(
     `UPDATE herois SET ouro = ouro - ${item.preco} WHERE id = ${heroiAtualId}`
   );
+  alasql(
+    "INSERT INTO vendas VALUES (" +
+      heroiAtualId +
+      ", " +
+      idItem +
+      ", " +
+      item.preco +
+      ")"
+  );
 
   // 3. FEEDBACK
-  atualizarInterface(); // Redesenha a tela com os novos números
+  atualizarInterface();
   logSQL(`Venda realizada: ${item.nome} por ${item.preco} moedas.`);
 }
 
@@ -124,4 +126,20 @@ function logSQL(texto) {
   let linha = document.createElement("div");
   linha.innerText = `> ${texto}`;
   logDiv.prepend(linha);
+}
+
+function gerarRelatorio() {
+  let relatorio = alasql(
+    "SELECT herois.nome AS cliente, itens.nome AS produto FROM vendas JOIN herois ON vendas.id_heroi = herois.id JOIN itens ON vendas.id_item = itens.id"
+  );
+  console.log(relatorio);
+  alert(
+    "Abra a aba Console (na parte inferior do CodeSandbox) para ver o relatório secreto!"
+  );
+}
+
+function fecharCaixa() {
+  alasql("DELETE FROM vendas");
+  alert("Caixa Fechado");
+  atualizarInterface();
 }

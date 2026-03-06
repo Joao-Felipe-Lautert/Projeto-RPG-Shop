@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>RPG Shop Master</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/alasql@1.7"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <header>
+        <h1>MERCADOR DA MONTANHA</h1>
+        <div class="stats">
+          <span>Vendas: <span id="total-vendas">0</span></span>
+          <span>Caixa: 💰 <span id="caixa-loja">0</span></span>
+        </div>
+      </header>
+
+      <div id="hero-area" class="hero-section">
+        <div class="hero-avatar">?</div>
+        <div class="hero-info">
+          <h2 id="hero-name">Aguardando cliente...</h2>
+          <p>Ouro: 💰 <span id="hero-gold">0</span></p>
+          <div class="bubble" id="hero-msg">...</div>
+          <button onclick="proximoCliente()">Próximo Cliente</button>
+        </div>
+      </div>
+
+      <div class="shop-grid" id="shop-items"></div>
+
+      <div class="console-log">
+        <h3>📜 Log do Sistema (SQL):</h3>
+        <div id="sql-logs"></div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

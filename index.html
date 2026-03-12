@@ -13,20 +13,28 @@
   <body>
     <div class="game-container">
       <header>
-        <h1>MERCADOR DA MONTANHA</h1>
+        <h1>Taverna de Aethelgard</h1>
         <div class="stats">
           <span>Vendas: <span id="total-vendas">0</span></span>
           <span>Caixa: 💰 <span id="caixa-loja">0</span></span>
+          <button class="alterar" onclick="gerarRelatorio()">
+            Baixar o Relatorio
+          </button>
+          <button class="alterar" onclick="fecharCaixa()">Fechar Caixa</button>
+          <button class="alterar" onclick="reabastecerEstoque()">
+            Reabastecer
+          </button>
+          <button class="alterar" onclick="InflaçãoMagica()">Inflação</button>
         </div>
       </header>
 
       <div id="hero-area" class="hero-section">
         <div class="hero-avatar">?</div>
         <div class="hero-info">
-          <h2 id="hero-name">Aguardando cliente...</h2>
+          <h2 id="hero-name">Carregando...</h2>
           <p>Ouro: 💰 <span id="hero-gold">0</span></p>
           <div class="bubble" id="hero-msg">...</div>
-          <button onclick="proximoCliente()">Próximo Cliente</button>
+          <button onclick="proximoCliente()">Proximo Cliente</button>
         </div>
       </div>
 
@@ -37,7 +45,6 @@
         <div id="sql-logs"></div>
       </div>
     </div>
-
     <script src="script.js"></script>
   </body>
 </html>

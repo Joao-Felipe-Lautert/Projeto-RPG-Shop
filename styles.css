@@ -88,6 +88,13 @@ header {
   font-size: 10px;
 }
 
+.alterar {
+  background-color: #0d0d30;
+  border: none;
+  font-weight: bold;
+  color: #ffd700;
+}
+
 button {
   color: #ffd700;
   background-color: #21216a;

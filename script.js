@@ -5,6 +5,8 @@ alasql(
 alasql(
   "CREATE TABLE herois (id INT, nome STRING, ouro INT, avatar STRING, fala STRING)"
 );
+// Adicionado para evitar erro nas funções de venda e permitir a atualização da interface
+alasql("CREATE TABLE vendas (id_heroi INT, id_item INT, valor INT)");
 
 // 2. INSERÇÃO DE DADOS (POPULANDO O BANCO)
 alasql("INSERT INTO itens VALUES (1, 'Poção de Vida', 25, '🧪', 15)");
